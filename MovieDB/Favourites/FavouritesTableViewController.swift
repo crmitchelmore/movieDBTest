@@ -45,7 +45,7 @@ class FavouritesTableViewController: UITableViewController {
     if editingStyle == .delete {
       // Delete the row from the data source
       favouriteMovies.remove(at: indexPath.row)
-      _ = persistanceService.setSavedMovies(favouriteMovies)
+      persistanceService.setSavedMovies(favouriteMovies)
       tableView.deleteRows(at: [indexPath], with: .fade)
     }
   }
@@ -57,6 +57,6 @@ class FavouritesTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
     let movingMovie = favouriteMovies.remove(at: sourceIndexPath.row)
     favouriteMovies[destinationIndexPath.row] = movingMovie
-    _ = persistanceService.setSavedMovies(favouriteMovies)
+    persistanceService.setSavedMovies(favouriteMovies)
   }
 }

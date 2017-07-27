@@ -37,6 +37,16 @@ extension Movie: Equatable {
     guard let rid = rhs.id, let lid = lhs.id else { return false }
     return rid == lid
   }
-  
-  
+}
+
+extension Movie {
+  init(summary: MovieSummary) {
+    id = summary.id
+    posterPath = summary.posterPath
+    title = summary.title
+    popularity = summary.popularity
+    overview = nil
+    releaseDate = nil
+    collection = nil
+  }
 }

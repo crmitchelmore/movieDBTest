@@ -9,7 +9,7 @@
 import Foundation
 
 class MovieSummaryViewModel {
-  private let movieSummary: MovieSummary
+  let movieSummary: MovieSummary
   
   init(movieSummary: MovieSummary) {
     self.movieSummary = movieSummary

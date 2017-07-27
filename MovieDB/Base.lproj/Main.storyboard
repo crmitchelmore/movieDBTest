@@ -116,6 +116,14 @@
                                                     <constraint firstAttribute="width" secondItem="fMM-t2-jud" secondAttribute="height" multiplier="3:4" id="EE5-3j-K0D"/>
                                                 </constraints>
                                             </imageView>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yaC-1s-q9H">
+                                                <rect key="frame" x="127.5" y="155" width="120" height="0.0"/>
+                                                <state key="normal" title="Add to Favourites"/>
+                                                <variation key="heightClass=regular-widthClass=regular" hidden="NO"/>
+                                                <connections>
+                                                    <action selector="addToWatchList" destination="JEX-9P-axG" eventType="touchUpInside" id="efD-3B-3kl"/>
+                                                </connections>
+                                            </button>
                                             <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Title" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0XM-y9-sOw">
                                                 <rect key="frame" x="161.5" y="160" width="52" height="33.5"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -189,6 +197,7 @@
                     <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM"/>
                     <connections>
                         <outlet property="imageView" destination="fMM-t2-jud" id="vS2-xh-7eV"/>
+                        <outlet property="ipadFavouritesButton" destination="yaC-1s-q9H" id="gbP-Gr-jd4"/>
                         <outlet property="overview" destination="Q9N-44-IID" id="fCb-RW-GlR"/>
                         <outlet property="popularity" destination="dBB-kj-k3Y" id="llu-Zs-mNq"/>
                         <outlet property="relatedMoviesCollectionView" destination="80H-P4-RE8" id="pVh-Dq-Do4"/>

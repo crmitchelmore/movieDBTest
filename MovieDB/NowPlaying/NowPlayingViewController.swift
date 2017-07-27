@@ -48,10 +48,18 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
       switch result {
       case .success(let nowPlaying):
         self.nowPlayingViewModel = NowPlayingViewModel(nowPlaying: nowPlaying)
+        self.showFirstMovie()
         self.collectionView?.reloadData()
       case .error(let error):
         print(error)
       }
+    }
+  }
+  
+  func showFirstMovie() {
+    if let movies = nowPlayingViewModel?.moviesToDisplay, movies.count > 0 {
+      detailViewController?.showMovie(MovieViewModel(movie: Movie(summary: movies[0].movieSummary)), onShowMovie: pushMovieSummary) //Use summary whilst we load the full movie
+      showMovieSummary(movies[0])
     }
   }
   
@@ -91,7 +99,7 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
     nowPlayingViewModel?.movie(for: movieSummary) { [weak self] result in
       switch result {
       case .success(let movie):
-        self?.performSegue(withIdentifier: pushVC ? "pushMovie" : "showMovie", sender: movie)
+        self?.performSegue(withIdentifier: pushVC && UI_USER_INTERFACE_IDIOM() != .pad ? "pushMovie" : "showMovie", sender: movie)
       case .error(let error):
         self?.showError(error)
       }
