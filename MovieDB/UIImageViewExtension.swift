@@ -16,7 +16,8 @@ extension UIImageView {
 //  static var imageLoadRequests: [String: URLSessionDataTask]
   
   
-  func loadImageFromUrl(_ url: String) -> Cancelable {
+  func loadImageFromUrl(_ url: String?) -> Cancelable {
+    MovieDBService.shared.loadImagePath(<#T##path: String##String#>, completion: <#T##(UIImage) -> Void#>)
 //    self.image = UIImage()
     fatalError()
   }

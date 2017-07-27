@@ -1,5 +1,5 @@
 //
-//  Movie.swift
+//  MovieSummary.swift
 //  MovieDB
 //
 //  Created by Chris Mitchelmore on 27/07/2017.
@@ -8,24 +8,19 @@
 
 import Foundation
 
-struct Movie: Codable {
+struct MovieSummary: Codable {
   enum CodingKeys: String, CodingKey {
+    case id
     case posterPath = "poster_path"
     case overview
     case releaseDate = "release_date"
     case title
     case popularity
-    case collection = "belongs_to_collection"
   }
-  
+  let id: Int?
   let posterPath: String?
   let overview: String?
   let releaseDate: Date?
   let title: String?
   let popularity: Double?
-  let collection: MovieCollectionSummary?
-}
-
-struct MovieCollectionSummary: Codable {
-  let id: Int?
 }

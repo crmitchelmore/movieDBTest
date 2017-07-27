@@ -35,15 +35,19 @@ class NowPlayingViewController: UICollectionViewController {
         detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MovieDetailsViewController
     }
   }
-
-  func refreshMoviews() {
+  
+  @objc func showFilterAndSortOptions(_ sender: Any?) {
+    
+  }
+  
+  @objc func refreshMovies() {
     nowPlayingViewModel.refreshMovies { [weak self] result in
       switch result {
       case .success(let nowPlayingViewModel):
         self?.nowPlayingViewModel = nowPlayingViewModel
         self?.collectionView?.reloadData()
         self?.refreshControl.endRefreshing()
-      case .error(error)
+      case .error(let error):
         self?.showError(error)
       }
     }
@@ -58,15 +62,26 @@ class NowPlayingViewController: UICollectionViewController {
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "showMovie", let movie = sender as? MovieViewModel, let movieDetailsVC = segue.destination as? MovieDetailsViewController {
-      movieDetailsVC.showMovie(movie)
+      movieDetailsVC.showMovie(movie, onShowMovie: showMovieSummary)
     }
   }
   
   func showMovie(_ movie: MovieViewModel) {
     if let detailViewController = detailViewController {
-      detailViewController.showMovie(movie)
+      detailViewController.showMovie(movie, onShowMovie: showMovieSummary)
     } else {
       performSegue(withIdentifier: "showMovie", sender: movie)
+    }
+  }
+  
+  func showMovieSummary(_ movieSummary: MovieSummaryViewModel) {
+    nowPlayingViewModel.movie(for: movieSummary) { [weak self] result in
+      switch result {
+      case .success(let movie):
+        self?.showMovie(movie)
+      case .error(let error):
+        self?.showError(error)
+      }
     }
   }
   
@@ -79,21 +94,15 @@ class NowPlayingViewController: UICollectionViewController {
   }
 
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let movieSummaryCell = collectionView.dequeueReusableCell(withIdentifier: "MovieSummaryCell", for: indexPath) as! MovieSummaryCell
+    let movieSummaryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieSummaryCell", for: indexPath) as! MovieSummaryCell
     let movieSummary = nowPlayingViewModel.moviesToDisplay[indexPath.row]
-    movieSummaryCell.configureWith(title: movieSummary.title ?? noTitleString, imageUrl: movieSummary.posterPath)
+    movieSummaryCell.configureWith(title: movieSummary.title, imageUrl: movieSummary.imageUrl)
+    return movieSummaryCell
   }
   
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let movieSummary = nowPlayingViewModel.moviesToDisplay[indexPath.row]
-    nowPlayingViewModel.movie(for: movieSummary) { [weak self] result in
-      switch result {
-      case .success(let movie):
-        self?.showMovie(movie)
-      case .error(error)
-        self?.showError(error)
-      }
-    }
+    showMovieSummary(movieSummary)
   }
 
 }

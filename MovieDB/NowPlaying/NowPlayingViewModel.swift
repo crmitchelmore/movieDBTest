@@ -87,19 +87,19 @@ class NowPlayingViewModel {
     currentSortBy = nil
   }
   
-  var moviesToDisplay: [MovieSummary] {
+  var moviesToDisplay: [MovieSummaryViewModel] {
     var movieResults = nowPlaying.result
     if let currentFilter = currentFilter {
       movieResults = movieResults.filter { currentFilter.includesMovie($0) }
     }
     
     if let sortBy = currentSortBy {
-      return sortBy.sortMovies(movieResults)
+      movieResults = sortBy.sortMovies(movieResults)
     }
-    return movieResults
+    return movieResults.map { MovieSummaryViewModel(movieSummary: $0) }
   }
   
-  func refreshMovies(_ completion: (Result<NowPlayingViewModel>) -> Void) {
+  func refreshMovies(_ completion: @escaping (Result<NowPlayingViewModel>) -> Void) {
     movieDBService.getMovies { result in
       switch result {
       case .success(let nowPlaying):
@@ -110,9 +110,9 @@ class NowPlayingViewModel {
     }
   }
   
-  func movie(for movieSummary: MovieSummary, completion: @escaping (Result<MovieViewModel>) -> Void) {
+  func movie(for movieSummary: MovieSummaryViewModel, completion: @escaping (Result<MovieViewModel>) -> Void) {
     //ID! to verify
-    movieDBService.getMovie(id: "\(movieSummary.id!)") { (result: Result<Movie>) in
+    movieDBService.getMovie(id: movieSummary.id!) { (result: Result<Movie>) in
       switch result {
       case .success(let movie):
         completion(.success(MovieViewModel(movie: movie, movieDBService: self.movieDBService)))

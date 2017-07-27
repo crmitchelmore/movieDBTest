@@ -13,7 +13,7 @@ class MovieSummaryCell: UICollectionViewCell {
   @IBOutlet var title: UILabel?
   private var imageLoadRequest: Cancelable?
   
-  func configureWith(title: String, imageUrl: String) {
+  func configureWith(title: String, imageUrl: String?) {
     self.title?.text = title
     imageLoadRequest = imageView?.loadImageFromUrl(imageUrl)
   }
