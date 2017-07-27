@@ -48,6 +48,7 @@ class MovieDetailsViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    relatedMoviesCollectionView.register(UINib(nibName: "MovieSummaryCell", bundle: nil), forCellWithReuseIdentifier: "MovieSummaryCell")
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToWatchList))
   }
   
@@ -72,7 +73,7 @@ extension MovieDetailsViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let movieSummaryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieSummaryCell", for: indexPath) as! MovieSummaryCell
     let movieSummary = movieViewModel.relatedMovies[indexPath.row]
-    movieSummaryCell.configureWith(title: movieSummary.title, imageUrl: movieSummary.imageUrl)
+    movieSummaryCell.configureWith(title: movieSummary.title, imageUrl: movieSummary.imageUrl, size: CGSize(width: 0, height: collectionView.frame.size.height))
     return movieSummaryCell
   }
 }

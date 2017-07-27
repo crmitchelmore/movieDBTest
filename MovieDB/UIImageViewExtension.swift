@@ -13,7 +13,9 @@ extension UIImageView {
   func loadImageFromPath(_ path: String?) -> Cancelable? {
     if let path = path {
       return MovieDBService.shared.loadImagePath(path) { [weak self] image in
-        self?.image = image
+        DispatchQueue.main.async {
+          self?.image = image
+        }
       }
     }
     return nil

@@ -9,6 +9,6 @@
 import Foundation
 
 struct NowPlaying: Codable {
-  let result: [MovieSummary]
+  let results: [MovieSummary]
 }
 

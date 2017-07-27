@@ -13,9 +13,11 @@ class MovieSummaryCell: UICollectionViewCell {
   @IBOutlet var title: UILabel?
   private var imageLoadRequest: Cancelable?
   
-  func configureWith(title: String, imageUrl: String?) {
+  @IBOutlet weak var imageWidth: NSLayoutConstraint!
+  func configureWith(title: String, imageUrl: String?, size: CGSize) {
     self.title?.text = title
     imageLoadRequest = imageView?.loadImageFromPath(imageUrl)
+    imageWidth.constant = size.width
   }
   
   override func prepareForReuse() {

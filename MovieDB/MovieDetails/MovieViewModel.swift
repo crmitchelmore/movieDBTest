@@ -46,7 +46,8 @@ class MovieViewModel {
   }
   
   func loadRelatedMovies(_ completion: @escaping (Result<[MovieSummaryViewModel]>) -> Void) {
-    movieDBService.getCollection(id: collectionId!) { [weak self] result in
+    guard let collectionId = collectionId else { return }
+    movieDBService.getCollection(id: collectionId) { [weak self] result in
       switch result {
       case .success(let movieCollection):
         if let sSelf = self {

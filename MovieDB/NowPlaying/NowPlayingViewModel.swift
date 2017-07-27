@@ -87,7 +87,7 @@ class NowPlayingViewModel {
   }
   
   var moviesToDisplay: [MovieSummaryViewModel] {
-    var movieResults = nowPlaying.result
+    var movieResults = nowPlaying.results
     if let currentFilter = currentFilter {
       movieResults = movieResults.filter { currentFilter.includesMovie($0) }
     }

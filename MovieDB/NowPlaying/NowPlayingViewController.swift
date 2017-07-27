@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NowPlayingViewController: UICollectionViewController {
+class NowPlayingViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
   
   let refreshControl = UIRefreshControl()
   
@@ -19,7 +19,11 @@ class NowPlayingViewController: UICollectionViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView?.register(MovieSummaryCell.self, forCellWithReuseIdentifier: "MovieSummaryCell")
+    
+    title = "Now Playing"
+    
+    collectionView?.register(UINib(nibName: "MovieSummaryCell", bundle: nil), forCellWithReuseIdentifier: "MovieSummaryCell")
+    
     collectionView?.allowsMultipleSelection = false
     
     collectionView!.alwaysBounceVertical = true
@@ -34,13 +38,22 @@ class NowPlayingViewController: UICollectionViewController {
         detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MovieDetailsViewController
     }
     
+    flowLayout.estimatedItemSize = CGSize(width: cellWidth(), height: cellWidth() * 2)
     loadMovies()
+  }
+  
+  var flowLayout: UICollectionViewFlowLayout {
+    return collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
   }
   
   func loadMovies() {
     MovieDBService.shared.getMovies { result in
-      if case .success(let nowPlaying) = result {
-        self.nowPlayingViewModel = NowPlayingViewModel(nowPlaying: nowPlaying, movieDBService: MovieDBService.shared)
+      switch result {
+      case .success(let nowPlaying):
+        self.nowPlayingViewModel = NowPlayingViewModel(nowPlaying: nowPlaying)
+        self.collectionView?.reloadData()
+      case .error(let error):
+        print(error)
       }
     }
   }
@@ -75,19 +88,11 @@ class NowPlayingViewController: UICollectionViewController {
     }
   }
   
-  func showMovie(_ movie: MovieViewModel) {
-    if let detailViewController = detailViewController {
-      detailViewController.showMovie(movie, onShowMovie: showMovieSummary)
-    } else {
-      performSegue(withIdentifier: "showMovie", sender: movie)
-    }
-  }
-  
   func showMovieSummary(_ movieSummary: MovieSummaryViewModel) {
     nowPlayingViewModel?.movie(for: movieSummary) { [weak self] result in
       switch result {
       case .success(let movie):
-        self?.showMovie(movie)
+        self?.performSegue(withIdentifier: "showMovie", sender: movie)
       case .error(let error):
         self?.showError(error)
       }
@@ -101,11 +106,16 @@ class NowPlayingViewController: UICollectionViewController {
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return nowPlayingViewModel?.moviesToDisplay.count ?? 0
   }
-
+  
+  func cellWidth() -> CGFloat {
+    let cols: CGFloat = 2
+    return (view.frame.size.width - (cols + 1) * flowLayout.minimumInteritemSpacing) / cols
+  }
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let movieSummaryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieSummaryCell", for: indexPath) as! MovieSummaryCell
     let movieSummary = nowPlayingViewModel!.moviesToDisplay[indexPath.row]
-    movieSummaryCell.configureWith(title: movieSummary.title, imageUrl: movieSummary.imageUrl)
+    
+    movieSummaryCell.configureWith(title: movieSummary.title, imageUrl: movieSummary.imageUrl, size: CGSize(width: cellWidth(), height: 0))
     return movieSummaryCell
   }
   

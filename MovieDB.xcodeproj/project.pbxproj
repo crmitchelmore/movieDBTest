@@ -26,6 +26,7 @@
 		30E747371F2A42E000751CF9 /* MovieSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E747361F2A42E000751CF9 /* MovieSummaryViewModel.swift */; };
 		30E747391F2A441D00751CF9 /* MovieSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E747381F2A441D00751CF9 /* MovieSummary.swift */; };
 		30E7473C1F2A55B500751CF9 /* MoviePersistanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7473B1F2A55B500751CF9 /* MoviePersistanceService.swift */; };
+		30E7473E1F2A688300751CF9 /* MovieSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E7473D1F2A688300751CF9 /* MovieSummaryCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		30E747361F2A42E000751CF9 /* MovieSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSummaryViewModel.swift; sourceTree = "<group>"; };
 		30E747381F2A441D00751CF9 /* MovieSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSummary.swift; sourceTree = "<group>"; };
 		30E7473B1F2A55B500751CF9 /* MoviePersistanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePersistanceService.swift; sourceTree = "<group>"; };
+		30E7473D1F2A688300751CF9 /* MovieSummaryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieSummaryCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +183,7 @@
 				308C718B1F2A1B1E0047AB4D /* NowPlayingViewController.swift */,
 				30CAE6581F2A33B400437314 /* MovieSummaryCell.swift */,
 				30E747361F2A42E000751CF9 /* MovieSummaryViewModel.swift */,
+				30E7473D1F2A688300751CF9 /* MovieSummaryCell.xib */,
 			);
 			path = NowPlaying;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				308C71961F2A1B1E0047AB4D /* LaunchScreen.storyboard in Resources */,
 				308C71931F2A1B1E0047AB4D /* Assets.xcassets in Resources */,
 				308C71911F2A1B1E0047AB4D /* Main.storyboard in Resources */,
+				30E7473E1F2A688300751CF9 /* MovieSummaryCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

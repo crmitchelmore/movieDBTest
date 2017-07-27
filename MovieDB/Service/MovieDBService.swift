@@ -30,9 +30,15 @@ class MovieDBService {
   
   static let shared = MovieDBService(apiKey: "9062e9e1c7fc6393168d864413575b83")
   
+  private lazy var releaseDateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "YYYY-mm-dd"
+    return dateFormatter
+  }()
   private let session = URLSession(configuration: URLSessionConfiguration.default)
-  private let host = "https://api.themoviedb.org/3/"
-  private let imageHost = "https://image.tmdb.org/t/p/w185"
+  private let host = "http://api.themoviedb.org"
+  private let apiVersion = "3"
+  private let imageHost = "http://image.tmdb.org/t/p/w185"
   private let nowPlayingPath = "/movie/now_playing"
   private func collectionPath(id: String) -> String {
     return "/collection/\(id)"
@@ -48,7 +54,7 @@ class MovieDBService {
   
   private func requestForPath(_ path: String) -> URLRequest {
     var components = URLComponents(string: host)!
-    components.path = path
+    components.path = "/\(apiVersion)\(path)"
     components.queryItems = [URLQueryItem(name: "api_key", value: apiKey)]
     return URLRequest(url: components.url!)
   }
@@ -56,24 +62,26 @@ class MovieDBService {
   private func performRequest<T: Decodable>(_ request: URLRequest, completion: @escaping (Result<T>) -> Void) {
     session.dataTask(with: request) { (data, response, error) in
       if let error = error {
-        completion(.error(ServiceError.httpError(error)))
+        DispatchQueue.main.async { completion(.error(ServiceError.httpError(error))) }
       }
       
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode / 100 != 2 {
-        completion(.error(ServiceError.requestFailedWithStatusCode(httpResponse.statusCode)))
+        DispatchQueue.main.async { completion(.error(ServiceError.requestFailedWithStatusCode(httpResponse.statusCode))) }
       }
       
       guard let data = data else {
-        return completion(.error(ServiceError.noData))
+        DispatchQueue.main.async { completion(.error(ServiceError.noData)) }
+        return
       }
       
       let decoder = JSONDecoder()
-      decoder.dateDecodingStrategy = .iso8601
+      decoder.dateDecodingStrategy = .formatted(self.releaseDateFormatter)
       do {
-        let collection = try decoder.decode(T.self, from: data)
-        completion(.success(collection))
+        let returnValue = try decoder.decode(T.self, from: data)
+        print(returnValue)
+        DispatchQueue.main.async { completion(.success(returnValue)) }
       } catch {
-        completion(.error(ServiceError.parsingError(error)))
+        DispatchQueue.main.async { completion(.error(ServiceError.parsingError(error))) }
       }
     }.resume()
   }
