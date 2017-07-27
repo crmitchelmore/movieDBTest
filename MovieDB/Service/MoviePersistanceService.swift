@@ -17,6 +17,7 @@ class MoviePersistanceService {
   private let defaults = UserDefaults.standard
   
   private func saveMovies(_ movies: [Movie]) {
+    savedModelCache = movies
     let encoder = JSONEncoder()
     do {
       let moviesData = try movies.map {
@@ -29,13 +30,16 @@ class MoviePersistanceService {
     defaults.synchronize()
   }
   
+  private var savedModelCache: [Movie]?
   private var savedModels: [Movie] {
     if let movieData = defaults.array(forKey: savedMoviesKey) as? [Data] {
       let decoder = JSONDecoder()
       do {
-        return try movieData.map {
+        let models = try movieData.map {
           return try decoder.decode(Movie.self, from: $0)
         }
+        savedModelCache = models
+        return models
       } catch {
         return []
       }
@@ -62,6 +66,6 @@ class MoviePersistanceService {
   }
   
   var savedMovies: [MovieViewModel] {
-    return savedModels.map { MovieViewModel(movie: $0) }
+    return (savedModelCache ?? savedModels).map { MovieViewModel(movie: $0) }
   }
 }

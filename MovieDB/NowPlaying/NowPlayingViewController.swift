@@ -20,7 +20,7 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
     super.viewDidLoad()
     
     title = "Now Playing"
-    navigationController?.navigationBar.prefersLargeTitles = true
+
     collectionView?.register(UINib(nibName: "MovieSummaryCell", bundle: nil), forCellWithReuseIdentifier: "MovieSummaryCell")
     
     collectionView?.allowsMultipleSelection = false
@@ -57,6 +57,7 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
   }
   
   func showFirstMovie() {
+    guard UI_USER_INTERFACE_IDIOM() == .pad else { return }
     if let movies = nowPlayingViewModel?.moviesToDisplay, movies.count > 0 {
       detailViewController?.showMovie(MovieViewModel(movie: Movie(summary: movies[0].movieSummary)), onShowMovie: pushMovieSummary) //Use summary whilst we load the full movie
       showMovieSummary(movies[0])
@@ -88,6 +89,7 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
       movieDetailsVC.showMovie(movie, onShowMovie: pushMovieSummary)
     } else if segue.identifier == "showFilterOptions", let nav = segue.destination as? UINavigationController, let filterVc = nav.topViewController as? FilterOptionsViewController {
       filterVc.delegate = self
+      filterVc.setInitialOptions(nowPlayingViewModel?.currentFilter, sortOptions: nowPlayingViewModel?.currentSortBy)
     }
   }
   

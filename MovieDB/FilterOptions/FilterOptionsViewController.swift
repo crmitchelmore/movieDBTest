@@ -20,13 +20,48 @@ class FilterOptionsViewController: UIViewController, UITextFieldDelegate {
   private var filterOptions: NowPlayingFilterOptions?
   private var sortOptions: NowPlayingSortByOptions?
   
-  @IBOutlet var sortBy: UISegmentedControl?
-  @IBOutlet var filterBy: UISegmentedControl?
+  @IBOutlet var sortBySegmentedControl: UISegmentedControl?
+  @IBOutlet var filterBySegmentedControl: UISegmentedControl?
   @IBOutlet var filterValue: UITextField?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     title = "Filter Options"
+    onVDL?()
+  }
+  
+  private var onVDL: (() -> Void)?
+  func setInitialOptions(_ filterOptions: NowPlayingFilterOptions?, sortOptions: NowPlayingSortByOptions?) {
+    onVDL = {
+      self.sortOptions = sortOptions
+      self.filterOptions = filterOptions
+      
+      if let filterOptions = filterOptions {
+        switch filterOptions {
+        case .popularity(let op, let value):
+          self.filterValue?.text = "\(value)"
+          switch op {
+          case .greaterThan:
+            self.filterBySegmentedControl?.selectedSegmentIndex = 0
+          case .lessThan:
+            self.filterBySegmentedControl?.selectedSegmentIndex = 1
+          }
+        }
+      } else {
+        self.filterBySegmentedControl?.selectedSegmentIndex = UISegmentedControlNoSegment
+      }
+      
+      if let sortOptions = sortOptions {
+        switch sortOptions {
+        case .popularityAscending:
+          self.sortBySegmentedControl?.selectedSegmentIndex = 0
+        case .popularityDescending:
+          self.sortBySegmentedControl?.selectedSegmentIndex = 1
+        }
+      } else {
+        self.sortBySegmentedControl?.selectedSegmentIndex = UISegmentedControlNoSegment
+      }
+    }
   }
   
   @IBAction func sortByTapped(sender: UISegmentedControl) {
@@ -54,7 +89,7 @@ class FilterOptionsViewController: UIViewController, UITextFieldDelegate {
   
   func updateFilterOptions() {
     if let valueString = filterValue?.text, let value = Double(valueString) {
-      filterOptions = NowPlayingFilterOptions.popularity(op: filterBy?.selectedSegmentIndex == 0 ? .greaterThan : .lessThan, value: value)
+      filterOptions = NowPlayingFilterOptions.popularity(op: filterBySegmentedControl?.selectedSegmentIndex == 0 ? .greaterThan : .lessThan, value: value)
     }
   }
   

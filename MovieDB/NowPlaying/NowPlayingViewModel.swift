@@ -63,8 +63,8 @@ class NowPlayingViewModel {
   private let nowPlaying: NowPlaying
   private let movieDBService = MovieDBService.shared
   
-  private var currentFilter: NowPlayingFilterOptions?
-  private var currentSortBy: NowPlayingSortByOptions?
+  var currentFilter: NowPlayingFilterOptions?
+  var currentSortBy: NowPlayingSortByOptions?
   
   init(nowPlaying: NowPlaying) {
     self.nowPlaying = nowPlaying

@@ -17,7 +17,9 @@ class MovieDetailsViewController: UIViewController {
   @IBOutlet weak var relatedMoviesCollectionView: UICollectionView!
   var movieViewModel: MovieViewModel? {
     didSet {
-      refreshView()
+      if view.window != nil {
+        refreshView()
+      }
     }
   }
   
@@ -26,10 +28,6 @@ class MovieDetailsViewController: UIViewController {
   @IBOutlet weak var titleLabel: UILabel?
   @IBOutlet weak var popularity: UILabel?
   @IBOutlet weak var overview: UILabel?
-  let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToWatchList))
-  let removeButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFromWatchList))
-  let addText = "Add to Favourites"
-  let removeText = "Remove from Favourites"
   
   func showError(_ error: Error) {
     print(error.localizedDescription)
@@ -63,19 +61,19 @@ class MovieDetailsViewController: UIViewController {
   func configureFavouriteButton(){
     let isSaved = persistanceService.savedMovies.contains { $0.movie.id == self.movieViewModel?.movie.id }
     if isSaved {
-      navigationItem.rightBarButtonItem = removeButton
-      ipadFavouritesButton?.setTitle(removeText, for: .normal)
+      navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFromWatchList))
+      ipadFavouritesButton?.setTitle("Remove from Favourites", for: .normal)
       ipadFavouritesButton?.addTarget(self, action: #selector(removeFromWatchList), for: .touchUpInside)
     } else {
-      navigationItem.rightBarButtonItem = addButton
-      ipadFavouritesButton?.setTitle(addText, for: .normal)
+      navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToWatchList))
+      ipadFavouritesButton?.setTitle("Add to Favourites", for: .normal)
       ipadFavouritesButton?.addTarget(self, action: #selector(addToWatchList), for: .touchUpInside)
     }
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    navigationController?.navigationBar.prefersLargeTitles = false
+    navigationItem.largeTitleDisplayMode = .never
     relatedMoviesCollectionView.register(UINib(nibName: "MovieSummaryCell", bundle: nil), forCellWithReuseIdentifier: "MovieSummaryCell")
     refreshView()
     flowLayout.estimatedItemSize = CGSize(width: 140, height: 200)
@@ -90,12 +88,12 @@ class MovieDetailsViewController: UIViewController {
     return relatedMoviesCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
   }
   
-  @objc @IBAction func removeFromWatchList() {
+  @objc func removeFromWatchList() {
     persistanceService.removeMovie(movieViewModel!)
     configureFavouriteButton()
   }
   
-  @objc @IBAction func addToWatchList() {
+  @objc func addToWatchList() {
     persistanceService.addMovie(movieViewModel!)
     configureFavouriteButton()
   }
