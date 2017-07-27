@@ -8,11 +8,16 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-
+class MovieDetailsViewController: UIViewController {
+  
+  var movieViewModel: MovieViewModel!
+  
   @IBOutlet weak var detailDescriptionLabel: UILabel!
 
-
+  
+  func showMovie(_ movie: MovieViewModel) {
+      movieViewModel = movie
+  }
   func configureView() {
     // Update the user interface for the detail item.
     if let detail = detailItem {

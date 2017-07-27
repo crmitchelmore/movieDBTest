@@ -61,11 +61,14 @@ extension NowPlayingSortByOptions {
 
 class NowPlayingViewModel {
   private let nowPlaying: NowPlaying
+  private let movieDBService: MovieDBService
+  
   private var currentFilter: NowPlayingFilterOptions?
   private var currentSortBy: NowPlayingSortByOptions?
   
-  init(nowPlaying: NowPlaying) {
+  init(nowPlaying: NowPlaying, movieDBService: MovieDBService) {
     self.nowPlaying = nowPlaying
+    self.movieDBService = movieDBService
   }
   
   func filterMoviesBy(_ filterBy: NowPlayingFilterOptions) {
@@ -94,5 +97,28 @@ class NowPlayingViewModel {
       return sortBy.sortMovies(movieResults)
     }
     return movieResults
+  }
+  
+  func refreshMovies(_ completion: (Result<NowPlayingViewModel>) -> Void) {
+    movieDBService.getMovies { result in
+      switch result {
+      case .success(let nowPlaying):
+        completion(.success(NowPlayingViewModel(nowPlaying: nowPlaying, movieDBService: self.movieDBService)))
+      case .error(let error):
+        completion(.error(error))
+      }
+    }
+  }
+  
+  func movie(for movieSummary: MovieSummary, completion: @escaping (Result<MovieViewModel>) -> Void) {
+    //ID! to verify
+    movieDBService.getMovie(id: "\(movieSummary.id!)") { (result: Result<Movie>) in
+      switch result {
+      case .success(let movie):
+        completion(.success(MovieViewModel(movie: movie, movieDBService: self.movieDBService)))
+      case .error(let error):
+        completion(.error(error))
+      }
+    }
   }
 }

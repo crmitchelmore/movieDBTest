@@ -56,7 +56,7 @@
         <!--Detail-->
         <scene sceneID="yUG-lL-AsK">
             <objects>
-                <viewController title="Detail" id="JEX-9P-axG" customClass="DetailViewController" customModule="MovieDB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Detail" id="JEX-9P-axG" customClass="MovieDetailsViewController" customModule="MovieDB" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SYR-Wa-9uf"/>
                         <viewControllerLayoutGuide type="bottom" id="GAO-Cl-Wes"/>
@@ -132,19 +132,46 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Mln-MR-A77">
-                            <size key="itemSize" width="50" height="50"/>
+                            <size key="itemSize" width="164" height="166"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="DU7-l9-S1E">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieSummaryCell" id="DU7-l9-S1E" customClass="MovieSummaryCell" customModule="MovieDB" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="164" height="166"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="164" height="166"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kY6-2j-a5R">
+                                            <rect key="frame" x="10" y="136" width="136" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="m2o-9p-mXo">
+                                            <rect key="frame" x="10" y="16" width="136" height="110"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="136" id="0Ox-Zq-z8I"/>
+                                                <constraint firstAttribute="height" constant="110" id="tR3-0D-9Qb"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
                                 </view>
+                                <constraints>
+                                    <constraint firstItem="m2o-9p-mXo" firstAttribute="leading" secondItem="DU7-l9-S1E" secondAttribute="leading" constant="10" id="AUy-Mt-OXd"/>
+                                    <constraint firstItem="kY6-2j-a5R" firstAttribute="trailing" secondItem="m2o-9p-mXo" secondAttribute="trailing" id="Bu4-Us-Hj5"/>
+                                    <constraint firstAttribute="bottom" secondItem="kY6-2j-a5R" secondAttribute="bottom" constant="9" id="OpM-wA-hmu"/>
+                                    <constraint firstItem="kY6-2j-a5R" firstAttribute="leading" secondItem="m2o-9p-mXo" secondAttribute="leading" id="VCW-rh-kDq"/>
+                                    <constraint firstAttribute="trailing" secondItem="m2o-9p-mXo" secondAttribute="trailing" constant="10" id="ntA-KY-NrI"/>
+                                    <constraint firstItem="kY6-2j-a5R" firstAttribute="top" secondItem="m2o-9p-mXo" secondAttribute="bottom" constant="10" id="zaK-YH-7bA"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="imageView" destination="m2o-9p-mXo" id="6Kr-6v-eal"/>
+                                    <outlet property="title" destination="kY6-2j-a5R" id="rpr-k5-fHx"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -156,7 +183,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Pr-Wg-LWc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="812" y="-630"/>
+            <point key="canvasLocation" x="812" y="-630.13493253373315"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r7l-gg-dq7">

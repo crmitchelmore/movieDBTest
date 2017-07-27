@@ -14,12 +14,14 @@ struct NowPlaying: Codable {
 
 struct MovieSummary: Codable {
   enum CodingKeys: String, CodingKey {
+    case id
     case posterPath = "poster_path"
     case overview
     case releaseDate = "release_date"
     case title
     case popularity
   }
+  let id: Int?
   let posterPath: String?
   let overview: String?
   let releaseDate: Date?
