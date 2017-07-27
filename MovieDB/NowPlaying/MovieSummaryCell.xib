@@ -18,8 +18,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="166" height="272"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="omP-hN-t6t">
-                        <rect key="frame" x="0.0" y="241" width="166" height="22"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="omP-hN-t6t">
+                        <rect key="frame" x="0.0" y="241" width="166" height="21"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -37,7 +37,7 @@
                 <constraint firstItem="omP-hN-t6t" firstAttribute="top" secondItem="Da1-qt-vDK" secondAttribute="bottom" constant="10" id="3eG-93-d49"/>
                 <constraint firstAttribute="trailing" secondItem="Da1-qt-vDK" secondAttribute="trailing" id="DRe-7k-q5T"/>
                 <constraint firstItem="Da1-qt-vDK" firstAttribute="leading" secondItem="sH9-AH-eJW" secondAttribute="leading" id="PLQ-qf-822"/>
-                <constraint firstAttribute="bottom" secondItem="omP-hN-t6t" secondAttribute="bottom" constant="9" id="R5o-7Y-CPO"/>
+                <constraint firstAttribute="bottom" secondItem="omP-hN-t6t" secondAttribute="bottom" constant="10" id="R5o-7Y-CPO"/>
                 <constraint firstItem="omP-hN-t6t" firstAttribute="trailing" secondItem="Da1-qt-vDK" secondAttribute="trailing" id="WfG-tr-Br6"/>
                 <constraint firstItem="omP-hN-t6t" firstAttribute="leading" secondItem="Da1-qt-vDK" secondAttribute="leading" id="ptX-dA-gcr"/>
                 <constraint firstItem="Da1-qt-vDK" firstAttribute="top" secondItem="sH9-AH-eJW" secondAttribute="top" constant="10" id="sPG-hj-YFN"/>

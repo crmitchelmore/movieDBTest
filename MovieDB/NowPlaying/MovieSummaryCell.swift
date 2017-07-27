@@ -15,9 +15,16 @@ class MovieSummaryCell: UICollectionViewCell {
   
   @IBOutlet weak var imageWidth: NSLayoutConstraint!
   func configureWith(title: String, imageUrl: String?, size: CGSize) {
+    contentView.translatesAutoresizingMaskIntoConstraints = false
     self.title?.text = title
     imageLoadRequest = imageView?.loadImageFromPath(imageUrl)
-    imageWidth.constant = size.width
+    if size.width > 0 {
+      imageWidth.constant = size.width
+    } else if size.height > 0 {
+      let otherBitsHeight = 20 + self.title!.frame.size.height
+      let imageHeight = size.height - otherBitsHeight
+      imageWidth.constant = imageHeight / 4 * 3
+    }
     layoutIfNeeded()
   }
   

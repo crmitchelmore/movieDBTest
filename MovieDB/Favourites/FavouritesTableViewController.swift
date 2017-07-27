@@ -17,6 +17,7 @@ class FavouritesTableViewController: UITableViewController {
     super.viewDidLoad()
     navigationController?.navigationBar.prefersLargeTitles = true
     title = "Favourite Movies"
+    navigationItem.rightBarButtonItem = editButtonItem
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -34,5 +35,28 @@ class FavouritesTableViewController: UITableViewController {
     let movie = favouriteMovies[indexPath.row]
     favouritesCell.configureWith(title: movie.title, imageUrl: movie.imageUrl, popularity: movie.popularity)
     return favouritesCell
+  }
+  
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+  
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      // Delete the row from the data source
+      favouriteMovies.remove(at: indexPath.row)
+      _ = persistanceService.setSavedMovies(favouriteMovies)
+      tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+  
+  override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    let movingMovie = favouriteMovies.remove(at: sourceIndexPath.row)
+    favouriteMovies[destinationIndexPath.row] = movingMovie
+    _ = persistanceService.setSavedMovies(favouriteMovies)
   }
 }

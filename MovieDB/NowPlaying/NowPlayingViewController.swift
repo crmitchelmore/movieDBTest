@@ -76,18 +76,22 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
   // MARK: - Segues
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "showMovie", let movie = sender as? MovieViewModel, let movieDetailsVC = segue.destination as? MovieDetailsViewController {
-      movieDetailsVC.showMovie(movie, onShowMovie: showMovieSummary)
-    } else if segue.identifier == "showFilterOptions" {
-      
+    if (segue.identifier == "showMovie" || segue.identifier == "pushMovie"), let movie = sender as? MovieViewModel, let movieDetailsVC = segue.destination as? MovieDetailsViewController {
+      movieDetailsVC.showMovie(movie, onShowMovie: pushMovieSummary)
+    } else if segue.identifier == "showFilterOptions", let nav = segue.destination as? UINavigationController, let filterVc = nav.topViewController as? FilterOptionsViewController {
+      filterVc.delegate = self
     }
   }
   
-  func showMovieSummary(_ movieSummary: MovieSummaryViewModel) {
+  func pushMovieSummary(_ movieSummary: MovieSummaryViewModel) {
+    showMovieSummary(movieSummary, pushVC: true)
+  }
+  
+  func showMovieSummary(_ movieSummary: MovieSummaryViewModel, pushVC: Bool = false) {
     nowPlayingViewModel?.movie(for: movieSummary) { [weak self] result in
       switch result {
       case .success(let movie):
-        self?.performSegue(withIdentifier: "showMovie", sender: movie)
+        self?.performSegue(withIdentifier: pushVC ? "pushMovie" : "showMovie", sender: movie)
       case .error(let error):
         self?.showError(error)
       }

@@ -12,6 +12,7 @@ class MovieDetailsViewController: UIViewController {
   
   var cancelImageLoad: Cancelable?
   var onShowMovie: ((MovieSummaryViewModel) -> Void)!
+  let persistanceService = MoviePersistanceService.shared
   
   @IBOutlet weak var relatedMoviesCollectionView: UICollectionView!
   var movieViewModel: MovieViewModel! {
@@ -36,6 +37,7 @@ class MovieDetailsViewController: UIViewController {
       switch result {
       case .success(let relatedMovies):
         self?.relatedMoviesCollectionView.isHidden = relatedMovies.count == 0
+        self?.relatedMoviesCollectionView.collectionViewLayout.invalidateLayout()
         self?.relatedMoviesCollectionView.reloadData()
       case .error(let error):
         self?.showError(error)
@@ -53,14 +55,35 @@ class MovieDetailsViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    navigationController?.navigationBar.prefersLargeTitles = false
     relatedMoviesCollectionView.register(UINib(nibName: "MovieSummaryCell", bundle: nil), forCellWithReuseIdentifier: "MovieSummaryCell")
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToWatchList))
     refreshView()
+    flowLayout.estimatedItemSize = CGSize(width: 140, height: 200)
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    let isSaved = persistanceService.savedMovies.contains { $0.movie.id == self.movieViewModel.movie.id }
+    if isSaved {
+      navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFromWatchList))
+    } else {
+      navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToWatchList))
+    }
+  }
+  
+  var flowLayout: UICollectionViewFlowLayout {
+    return relatedMoviesCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+  }
+  
+  @objc func removeFromWatchList() {
+    if persistanceService.removeMovie(movieViewModel) {
+       navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToWatchList))
+    }
   }
   
   @objc func addToWatchList() {
-    if MoviePersistanceService.shared.addMovie(movieViewModel) {
-      navigationItem.rightBarButtonItem = nil
+    if persistanceService.addMovie(movieViewModel) {
+      navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFromWatchList))
     }
   }
   
@@ -79,7 +102,7 @@ extension MovieDetailsViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let movieSummaryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieSummaryCell", for: indexPath) as! MovieSummaryCell
     let movieSummary = movieViewModel.relatedMovies[indexPath.row]
-    movieSummaryCell.configureWith(title: movieSummary.title, imageUrl: movieSummary.imageUrl, size: CGSize(width: 0, height: collectionView.frame.size.height))
+    movieSummaryCell.configureWith(title: movieSummary.title, imageUrl: movieSummary.imageUrl, size: CGSize(width: 0, height: collectionView.frame.size.height - 40))
     return movieSummaryCell
   }
 }

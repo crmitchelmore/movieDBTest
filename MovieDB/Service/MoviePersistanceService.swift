@@ -16,10 +16,7 @@ class MoviePersistanceService {
   private let savedMoviesKey = "SavedMovies"
   private let defaults = UserDefaults.standard
   
-  func addMovie(_ movieViewModel: MovieViewModel) -> Bool {
-    var movies = self.savedModels
-    guard !movies.contains(movieViewModel.movie) else { return true }
-    movies.append(movieViewModel.movie)
+  private func saveMovies(_ movies: [Movie]) -> Bool {
     let encoder = JSONEncoder()
     do {
       let moviesData = try movies.map {
@@ -31,7 +28,6 @@ class MoviePersistanceService {
     }
     return defaults.synchronize()
   }
-
   
   private var savedModels: [Movie] {
     if let movieData = defaults.array(forKey: savedMoviesKey) as? [Data] {
@@ -45,6 +41,24 @@ class MoviePersistanceService {
       }
     }
     return []
+  }
+  
+  func setSavedMovies(_ movieViewModels: [MovieViewModel]) -> Bool {
+    return saveMovies(movieViewModels.map { $0.movie })
+  }
+  
+  func addMovie(_ movieViewModel: MovieViewModel) -> Bool {
+    var movies = self.savedModels
+    guard !movies.contains(movieViewModel.movie) else { return true }
+    movies.append(movieViewModel.movie)
+    return saveMovies(movies)
+  }
+  
+  func removeMovie(_ movieViewModel: MovieViewModel) -> Bool {
+    var movies = self.savedModels
+    guard movies.contains(movieViewModel.movie) else { return true }
+    movies = movies.filter { $0 != movieViewModel.movie }
+    return saveMovies(movies)
   }
   
   var savedMovies: [MovieViewModel] {
