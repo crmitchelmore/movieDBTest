@@ -19,7 +19,7 @@ class MovieDetailsViewController: UIViewController {
       titleLabel?.text = movieViewModel.title
       popularity?.text = movieViewModel.popularity
       overview?.text = movieViewModel.overview
-      cancelImageLoad = imageView?.loadImageFromUrl(movieViewModel.imageUrl)
+      cancelImageLoad = imageView?.loadImageFromPath(movieViewModel.imageUrl)
     }
   }
   
@@ -48,6 +48,13 @@ class MovieDetailsViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToWatchList))
+  }
+  
+  @objc func addToWatchList() {
+    if MoviePersistanceService.shared.addMovie(movieViewModel) {
+      navigationItem.rightBarButtonItem = nil
+    }
   }
   
   override func viewDidDisappear(_ animated: Bool) {

@@ -15,7 +15,7 @@ class MovieSummaryCell: UICollectionViewCell {
   
   func configureWith(title: String, imageUrl: String?) {
     self.title?.text = title
-    imageLoadRequest = imageView?.loadImageFromUrl(imageUrl)
+    imageLoadRequest = imageView?.loadImageFromPath(imageUrl)
   }
   
   override func prepareForReuse() {

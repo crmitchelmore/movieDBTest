@@ -8,18 +8,15 @@
 
 import UIKit
 
-protocol Cancelable {
-  func cancel()
-}
-extension URLSessionDataTask: Cancelable {}
 extension UIImageView {
-//  static var imageLoadRequests: [String: URLSessionDataTask]
-  
-  
-  func loadImageFromUrl(_ url: String?) -> Cancelable {
-    MovieDBService.shared.loadImagePath(<#T##path: String##String#>, completion: <#T##(UIImage) -> Void#>)
-//    self.image = UIImage()
-    fatalError()
+
+  func loadImageFromPath(_ path: String?) -> Cancelable? {
+    if let path = path {
+      return MovieDBService.shared.loadImagePath(path) { [weak self] image in
+        self?.image = image
+      }
+    }
+    return nil
   }
   
 }

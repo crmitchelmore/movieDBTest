@@ -10,10 +10,9 @@ import UIKit
 
 class NowPlayingViewController: UICollectionViewController {
   
-  let noTitleString = "No Title"
   let refreshControl = UIRefreshControl()
   
-  var nowPlayingViewModel: NowPlayingViewModel!
+  var nowPlayingViewModel: NowPlayingViewModel?
   
   var detailViewController: MovieDetailsViewController? = nil
   var objects = [Any]()
@@ -34,6 +33,16 @@ class NowPlayingViewController: UICollectionViewController {
         let controllers = split.viewControllers
         detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MovieDetailsViewController
     }
+    
+    loadMovies()
+  }
+  
+  func loadMovies() {
+    MovieDBService.shared.getMovies { result in
+      if case .success(let nowPlaying) = result {
+        self.nowPlayingViewModel = NowPlayingViewModel(nowPlaying: nowPlaying, movieDBService: MovieDBService.shared)
+      }
+    }
   }
   
   @objc func showFilterAndSortOptions(_ sender: Any?) {
@@ -41,7 +50,7 @@ class NowPlayingViewController: UICollectionViewController {
   }
   
   @objc func refreshMovies() {
-    nowPlayingViewModel.refreshMovies { [weak self] result in
+    nowPlayingViewModel?.refreshMovies { [weak self] result in
       switch result {
       case .success(let nowPlayingViewModel):
         self?.nowPlayingViewModel = nowPlayingViewModel
@@ -75,7 +84,7 @@ class NowPlayingViewController: UICollectionViewController {
   }
   
   func showMovieSummary(_ movieSummary: MovieSummaryViewModel) {
-    nowPlayingViewModel.movie(for: movieSummary) { [weak self] result in
+    nowPlayingViewModel?.movie(for: movieSummary) { [weak self] result in
       switch result {
       case .success(let movie):
         self?.showMovie(movie)
@@ -90,18 +99,18 @@ class NowPlayingViewController: UICollectionViewController {
   }
 
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return nowPlayingViewModel.moviesToDisplay.count
+    return nowPlayingViewModel?.moviesToDisplay.count ?? 0
   }
 
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let movieSummaryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieSummaryCell", for: indexPath) as! MovieSummaryCell
-    let movieSummary = nowPlayingViewModel.moviesToDisplay[indexPath.row]
+    let movieSummary = nowPlayingViewModel!.moviesToDisplay[indexPath.row]
     movieSummaryCell.configureWith(title: movieSummary.title, imageUrl: movieSummary.imageUrl)
     return movieSummaryCell
   }
   
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let movieSummary = nowPlayingViewModel.moviesToDisplay[indexPath.row]
+    let movieSummary = nowPlayingViewModel!.moviesToDisplay[indexPath.row]
     showMovieSummary(movieSummary)
   }
 

@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol Cancelable {
+  func cancel()
+}
+
+extension URLSessionDataTask: Cancelable {}
+
 enum Result<T> {
   case success(T)
   case error(Error)
@@ -22,11 +28,11 @@ enum ServiceError: Error {
 
 class MovieDBService {
   
-  static let shared = MovieDBService(apiKey: "9062e9e1c7fc6393168d864413575b83"))
+  static let shared = MovieDBService(apiKey: "9062e9e1c7fc6393168d864413575b83")
   
   private let session = URLSession(configuration: URLSessionConfiguration.default)
-  private let host = "http://api.themoviedb.org/3/"
-  private let imageHost = "http://image.tmdb.org/t/p/w185"
+  private let host = "https://api.themoviedb.org/3/"
+  private let imageHost = "https://image.tmdb.org/t/p/w185"
   private let nowPlayingPath = "/movie/now_playing"
   private func collectionPath(id: String) -> String {
     return "/collection/\(id)"
@@ -69,17 +75,22 @@ class MovieDBService {
       } catch {
         completion(.error(ServiceError.parsingError(error)))
       }
-    }
+    }.resume()
   }
   
-  func loadImagePath(_ path: String, completion: @escaping (UIImage) -> Void) {
+  func loadImagePath(_ path: String, completion: @escaping (UIImage) -> Void) -> Cancelable? {
+    
     if let url = URL(string: imageHost + path) {
-      session.dataTask(with: url) { data, _, _ in
+      let task = session.dataTask(with: url) { data, _, _ in
         if let data = data, let image = UIImage(data: data) {
           completion(image)
         }
       }
+      task.resume()
+      return task
     }
+    
+    return nil
   }
   
   func getMovies(_ completion: @escaping (Result<NowPlaying>) -> Void)  {

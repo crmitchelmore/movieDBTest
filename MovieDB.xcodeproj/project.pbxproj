@@ -25,6 +25,7 @@
 		30CAE65D1F2A395400437314 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CAE65C1F2A395400437314 /* MovieViewModel.swift */; };
 		30E747371F2A42E000751CF9 /* MovieSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E747361F2A42E000751CF9 /* MovieSummaryViewModel.swift */; };
 		30E747391F2A441D00751CF9 /* MovieSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E747381F2A441D00751CF9 /* MovieSummary.swift */; };
+		30E7473C1F2A55B500751CF9 /* MoviePersistanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7473B1F2A55B500751CF9 /* MoviePersistanceService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		30CAE65C1F2A395400437314 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
 		30E747361F2A42E000751CF9 /* MovieSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSummaryViewModel.swift; sourceTree = "<group>"; };
 		30E747381F2A441D00751CF9 /* MovieSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSummary.swift; sourceTree = "<group>"; };
+		30E7473B1F2A55B500751CF9 /* MoviePersistanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePersistanceService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				308C71BB1F2A1CE60047AB4D /* MovieDBService.swift */,
+				30E7473B1F2A55B500751CF9 /* MoviePersistanceService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				30E747371F2A42E000751CF9 /* MovieSummaryViewModel.swift in Sources */,
 				30CAE65D1F2A395400437314 /* MovieViewModel.swift in Sources */,
 				308C718A1F2A1B1E0047AB4D /* AppDelegate.swift in Sources */,
+				30E7473C1F2A55B500751CF9 /* MoviePersistanceService.swift in Sources */,
 				308C71C21F2A1FA10047AB4D /* MovieCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

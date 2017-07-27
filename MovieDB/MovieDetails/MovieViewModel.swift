@@ -10,13 +10,12 @@ import Foundation
 
 class MovieViewModel {
   
-  private let movie: Movie
-  private let movieDBService: MovieDBService
+  let movie: Movie
+  private let movieDBService = MovieDBService.shared
   private var allRelatedMovies: [MovieSummary]?
   
-  init(movie: Movie, movieDBService: MovieDBService) {
+  init(movie: Movie) {
     self.movie = movie
-    self.movieDBService = movieDBService
   }
   
   var title: String {

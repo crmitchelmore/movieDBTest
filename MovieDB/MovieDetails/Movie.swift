@@ -10,6 +10,7 @@ import Foundation
 
 struct Movie: Codable {
   enum CodingKeys: String, CodingKey {
+    case id
     case posterPath = "poster_path"
     case overview
     case releaseDate = "release_date"
@@ -18,6 +19,7 @@ struct Movie: Codable {
     case collection = "belongs_to_collection"
   }
   
+  let id: Int?
   let posterPath: String?
   let overview: String?
   let releaseDate: Date?
@@ -28,4 +30,13 @@ struct Movie: Codable {
 
 struct MovieCollectionSummary: Codable {
   let id: Int?
+}
+
+extension Movie: Equatable {
+  static func ==(lhs: Movie, rhs: Movie) -> Bool {
+    guard let rid = rhs.id, let lid = lhs.id else { return false }
+    return rid == lid
+  }
+  
+  
 }
