@@ -18,10 +18,10 @@ class MovieSummaryCell: UICollectionViewCell {
     self.title?.text = title
     imageLoadRequest = imageView?.loadImageFromPath(imageUrl)
     imageWidth.constant = size.width
+    layoutIfNeeded()
   }
   
   override func prepareForReuse() {
-    title?.text = ""
     imageLoadRequest?.cancel()
   }
 }

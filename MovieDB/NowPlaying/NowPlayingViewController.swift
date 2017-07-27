@@ -20,7 +20,7 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
     super.viewDidLoad()
     
     title = "Now Playing"
-    
+    navigationController?.navigationBar.prefersLargeTitles = true
     collectionView?.register(UINib(nibName: "MovieSummaryCell", bundle: nil), forCellWithReuseIdentifier: "MovieSummaryCell")
     
     collectionView?.allowsMultipleSelection = false
@@ -104,7 +104,9 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
   
   func cellWidth() -> CGFloat {
     let cols: CGFloat = 2
-    return (view.frame.size.width - (cols + 1) * flowLayout.minimumInteritemSpacing) / cols
+    let availableWidth = collectionView!.contentSize.width
+    let availableWidthForCells = availableWidth - (cols - 1) * flowLayout.minimumInteritemSpacing
+    return availableWidthForCells / cols
   }
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let movieSummaryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieSummaryCell", for: indexPath) as! MovieSummaryCell
