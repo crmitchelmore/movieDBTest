@@ -15,7 +15,6 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
   var nowPlayingViewModel: NowPlayingViewModel?
   
   var detailViewController: MovieDetailsViewController? = nil
-  var objects = [Any]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -30,9 +29,7 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
     refreshControl.tintColor = .green
     refreshControl.addTarget(self, action: #selector(refreshMovies), for: .valueChanged)
     collectionView?.addSubview(refreshControl)
-    
-    let organizeButton = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(showFilterAndSortOptions(_:)))
-    navigationItem.rightBarButtonItem = organizeButton
+    collectionView?.contentInset = UIEdgeInsetsMake(0, 10, 0, 10)
     if let split = splitViewController {
         let controllers = split.viewControllers
         detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MovieDetailsViewController
@@ -58,10 +55,6 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
     }
   }
   
-  @objc func showFilterAndSortOptions(_ sender: Any?) {
-    
-  }
-  
   @objc func refreshMovies() {
     nowPlayingViewModel?.refreshMovies { [weak self] result in
       switch result {
@@ -85,6 +78,8 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "showMovie", let movie = sender as? MovieViewModel, let movieDetailsVC = segue.destination as? MovieDetailsViewController {
       movieDetailsVC.showMovie(movie, onShowMovie: showMovieSummary)
+    } else if segue.identifier == "showFilterOptions" {
+      
     }
   }
   
@@ -124,5 +119,17 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
     showMovieSummary(movieSummary)
   }
 
+}
+
+extension NowPlayingViewController: FilterOptionsDelegate {
+  func updateFilterOptions(_ options: NowPlayingFilterOptions?, sortBy: NowPlayingSortByOptions?) {
+    nowPlayingViewModel?.filterMoviesBy(options)
+    nowPlayingViewModel?.sortMoviesBy(sortBy)
+    collectionView?.reloadData()
+  }
+  
+  func closeFilterOptions() {
+    dismiss(animated: true, completion: nil)
+  }
 }
 

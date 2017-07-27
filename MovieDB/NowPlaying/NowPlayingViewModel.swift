@@ -70,7 +70,7 @@ class NowPlayingViewModel {
     self.nowPlaying = nowPlaying
   }
   
-  func filterMoviesBy(_ filterBy: NowPlayingFilterOptions) {
+  func filterMoviesBy(_ filterBy: NowPlayingFilterOptions?) {
     currentFilter = filterBy
   }
   
@@ -78,7 +78,7 @@ class NowPlayingViewModel {
     currentFilter = nil
   }
   
-  func sortMoviesBy(_ sortBy: NowPlayingSortByOptions) {
+  func sortMoviesBy(_ sortBy: NowPlayingSortByOptions?) {
     currentSortBy = sortBy
   }
   

@@ -42,7 +42,7 @@ class MovieViewModel {
     guard let allRelatedMovies = allRelatedMovies else {
       return []
     }
-    return allRelatedMovies.map {  MovieSummaryViewModel(movieSummary: $0) } ?? []
+    return allRelatedMovies.map {  MovieSummaryViewModel(movieSummary: $0) }
   }
   
   func loadRelatedMovies(_ completion: @escaping (Result<[MovieSummaryViewModel]>) -> Void) {

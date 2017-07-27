@@ -16,10 +16,7 @@ class MovieDetailsViewController: UIViewController {
   @IBOutlet weak var relatedMoviesCollectionView: UICollectionView!
   var movieViewModel: MovieViewModel! {
     didSet {
-      titleLabel?.text = movieViewModel.title
-      popularity?.text = movieViewModel.popularity
-      overview?.text = movieViewModel.overview
-      cancelImageLoad = imageView?.loadImageFromPath(movieViewModel.imageUrl)
+      refreshView()
     }
   }
   
@@ -46,10 +43,19 @@ class MovieDetailsViewController: UIViewController {
     }
   }
   
+  func refreshView() {
+    title = movieViewModel.title
+    titleLabel?.text = movieViewModel.title
+    popularity?.text = movieViewModel.popularity
+    overview?.text = movieViewModel.overview
+    cancelImageLoad = imageView?.loadImageFromPath(movieViewModel.imageUrl)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     relatedMoviesCollectionView.register(UINib(nibName: "MovieSummaryCell", bundle: nil), forCellWithReuseIdentifier: "MovieSummaryCell")
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToWatchList))
+    refreshView()
   }
   
   @objc func addToWatchList() {
