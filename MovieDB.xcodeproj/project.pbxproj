@@ -25,11 +25,14 @@
 		30CAE6591F2A33B400437314 /* MovieSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CAE6581F2A33B400437314 /* MovieSummaryCell.swift */; };
 		30CAE65B1F2A34AB00437314 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CAE65A1F2A34AB00437314 /* UIImageViewExtension.swift */; };
 		30CAE65D1F2A395400437314 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CAE65C1F2A395400437314 /* MovieViewModel.swift */; };
+		30D3AFD81F2B6C8D0057C616 /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D3AFD71F2B6C8D0057C616 /* FilterTests.swift */; };
+		30D3AFDA1F2B6DCD0057C616 /* SortByTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D3AFD91F2B6DCD0057C616 /* SortByTests.swift */; };
 		30E747371F2A42E000751CF9 /* MovieSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E747361F2A42E000751CF9 /* MovieSummaryViewModel.swift */; };
 		30E747391F2A441D00751CF9 /* MovieSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E747381F2A441D00751CF9 /* MovieSummary.swift */; };
 		30E7473C1F2A55B500751CF9 /* MoviePersistanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7473B1F2A55B500751CF9 /* MoviePersistanceService.swift */; };
 		30E7473E1F2A688300751CF9 /* MovieSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E7473D1F2A688300751CF9 /* MovieSummaryCell.xib */; };
 		30E802701F2A78E20015816B /* FilterOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E8026F1F2A78E20015816B /* FilterOptionsViewController.swift */; };
+		30F4F2F71F2B223D0054924B /* NowPlayingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F4F2F61F2B223D0054924B /* NowPlayingViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,11 +77,14 @@
 		30CAE6581F2A33B400437314 /* MovieSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSummaryCell.swift; sourceTree = "<group>"; };
 		30CAE65A1F2A34AB00437314 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		30CAE65C1F2A395400437314 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
+		30D3AFD71F2B6C8D0057C616 /* FilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTests.swift; sourceTree = "<group>"; };
+		30D3AFD91F2B6DCD0057C616 /* SortByTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByTests.swift; sourceTree = "<group>"; };
 		30E747361F2A42E000751CF9 /* MovieSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSummaryViewModel.swift; sourceTree = "<group>"; };
 		30E747381F2A441D00751CF9 /* MovieSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSummary.swift; sourceTree = "<group>"; };
 		30E7473B1F2A55B500751CF9 /* MoviePersistanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePersistanceService.swift; sourceTree = "<group>"; };
 		30E7473D1F2A688300751CF9 /* MovieSummaryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieSummaryCell.xib; sourceTree = "<group>"; };
 		30E8026F1F2A78E20015816B /* FilterOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptionsViewController.swift; sourceTree = "<group>"; };
+		30F4F2F61F2B223D0054924B /* NowPlayingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,7 +163,10 @@
 			isa = PBXGroup;
 			children = (
 				308C71A01F2A1B1E0047AB4D /* MovieDBTests.swift */,
+				30D3AFD71F2B6C8D0057C616 /* FilterTests.swift */,
+				30D3AFD91F2B6DCD0057C616 /* SortByTests.swift */,
 				308C71A21F2A1B1E0047AB4D /* Info.plist */,
+				30F4F2F61F2B223D0054924B /* NowPlayingViewModelTests.swift */,
 			);
 			path = MovieDBTests;
 			sourceTree = "<group>";
@@ -289,6 +298,7 @@
 				TargetAttributes = {
 					308C71851F2A1B1E0047AB4D = {
 						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
 					};
 					308C719B1F2A1B1E0047AB4D = {
 						CreatedOnToolsVersion = 9.0;
@@ -377,6 +387,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30F4F2F71F2B223D0054924B /* NowPlayingViewModelTests.swift in Sources */,
+				30D3AFD81F2B6C8D0057C616 /* FilterTests.swift in Sources */,
+				30D3AFDA1F2B6DCD0057C616 /* SortByTests.swift in Sources */,
 				308C71A11F2A1B1E0047AB4D /* MovieDBTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -531,11 +544,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = F4FKZMR5MG;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZF2BPJK26D;
 				INFOPLIST_FILE = MovieDB/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.marksandspencer.test.MovieDB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -545,11 +562,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = F4FKZMR5MG;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZF2BPJK26D;
 				INFOPLIST_FILE = MovieDB/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.marksandspencer.test.MovieDB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

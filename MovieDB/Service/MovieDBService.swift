@@ -26,10 +26,17 @@ enum ServiceError: Error {
   case parsingError(Error)
 }
 
-class MovieDBService {
-  
-  static let shared = MovieDBService(apiKey: "9062e9e1c7fc6393168d864413575b83")
-  
+protocol MovieDBService {
+	func loadImagePath(_ path: String, completion: @escaping (UIImage) -> Void) -> Cancelable?
+  func getMovies(_ completion: @escaping (Result<NowPlaying>) -> Void)
+  func getMovie(id: String, completion: @escaping (Result<Movie>) -> Void)
+  func getCollection(id: String, completion: @escaping (Result<MovieCollection>) -> Void)
+}
+
+class MovieDBServiceImplementation: MovieDBService {
+
+  static var shared: MovieDBService = MovieDBServiceImplementation(apiKey: "9062e9e1c7fc6393168d864413575b83")
+
   private lazy var releaseDateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "YYYY-mm-dd"
@@ -47,33 +54,33 @@ class MovieDBService {
     return "/movie/\(id)"
   }
   let apiKey: String
-  
+
   private init(apiKey: String) {
     self.apiKey = apiKey
   }
-  
+
   private func requestForPath(_ path: String) -> URLRequest {
     var components = URLComponents(string: host)!
     components.path = "/\(apiVersion)\(path)"
     components.queryItems = [URLQueryItem(name: "api_key", value: apiKey)]
     return URLRequest(url: components.url!)
   }
-  
+
   private func performRequest<T: Decodable>(_ request: URLRequest, completion: @escaping (Result<T>) -> Void) {
     session.dataTask(with: request) { (data, response, error) in
       if let error = error {
         DispatchQueue.main.async { completion(.error(ServiceError.httpError(error))) }
       }
-      
+
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode / 100 != 2 {
         DispatchQueue.main.async { completion(.error(ServiceError.requestFailedWithStatusCode(httpResponse.statusCode))) }
       }
-      
+
       guard let data = data else {
         DispatchQueue.main.async { completion(.error(ServiceError.noData)) }
         return
       }
-      
+
       let decoder = JSONDecoder()
       decoder.dateDecodingStrategy = .formatted(self.releaseDateFormatter)
       do {
@@ -85,9 +92,9 @@ class MovieDBService {
       }
     }.resume()
   }
-  
+
   func loadImagePath(_ path: String, completion: @escaping (UIImage) -> Void) -> Cancelable? {
-    
+
     if let url = URL(string: imageHost + path) {
       let task = session.dataTask(with: url) { data, _, _ in
         if let data = data, let image = UIImage(data: data) {
@@ -97,20 +104,20 @@ class MovieDBService {
       task.resume()
       return task
     }
-    
+
     return nil
   }
-  
+
   func getMovies(_ completion: @escaping (Result<NowPlaying>) -> Void)  {
     let request = requestForPath(nowPlayingPath)
     performRequest(request, completion: completion)
   }
-  
+
   func getMovie(id: String, completion: @escaping (Result<Movie>) -> Void)  {
     let request = requestForPath(moviePath(id: id))
     performRequest(request, completion: completion)
   }
-  
+
   func getCollection(id: String, completion: @escaping (Result<MovieCollection>) -> Void)  {
     let request = requestForPath(collectionPath(id: id))
     performRequest(request, completion: completion)

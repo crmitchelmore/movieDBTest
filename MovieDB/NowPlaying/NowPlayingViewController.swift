@@ -44,7 +44,7 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
   }
   
   func loadMovies() {
-    MovieDBService.shared.getMovies { result in
+    MovieDBServiceImplementation.shared.getMovies { result in
       switch result {
       case .success(let nowPlaying):
         self.nowPlayingViewModel = NowPlayingViewModel(nowPlaying: nowPlaying)

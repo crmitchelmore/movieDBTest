@@ -12,7 +12,7 @@ class MovieDetailsViewController: UIViewController {
   
   var cancelImageLoad: Cancelable?
   var onShowMovie: ((MovieSummaryViewModel) -> Void)!
-  let persistanceService = MoviePersistanceService.shared
+  let persistanceService = MoviePersistanceServiceImplementation.shared
   
   @IBOutlet weak var relatedMoviesCollectionView: UICollectionView!
   var movieViewModel: MovieViewModel? {

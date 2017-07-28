@@ -10,7 +10,7 @@ import UIKit
 
 class FavouritesTableViewController: UITableViewController {
   
-  let persistanceService = MoviePersistanceService.shared
+  let persistanceService = MoviePersistanceServiceImplementation.shared
   var favouriteMovies: [MovieViewModel] = []
   
   override func viewDidLoad() {

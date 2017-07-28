@@ -11,7 +11,7 @@ import Foundation
 class MovieViewModel {
   
   let movie: Movie
-  private let movieDBService = MovieDBService.shared
+  private let movieDBService = MovieDBServiceImplementation.shared
   private var allRelatedMovies: [MovieSummary]?
   
   init(movie: Movie) {

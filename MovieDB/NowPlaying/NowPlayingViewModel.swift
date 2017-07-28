@@ -61,7 +61,7 @@ extension NowPlayingSortByOptions {
 
 class NowPlayingViewModel {
   private let nowPlaying: NowPlaying
-  private let movieDBService = MovieDBService.shared
+  private let movieDBService = MovieDBServiceImplementation.shared
   
   var currentFilter: NowPlayingFilterOptions?
   var currentSortBy: NowPlayingSortByOptions?
@@ -74,16 +74,8 @@ class NowPlayingViewModel {
     currentFilter = filterBy
   }
   
-  func clearFilter() {
-    currentFilter = nil
-  }
-  
   func sortMoviesBy(_ sortBy: NowPlayingSortByOptions?) {
     currentSortBy = sortBy
-  }
-  
-  func clearSortBy() {
-    currentSortBy = nil
   }
   
   var moviesToDisplay: [MovieSummaryViewModel] {

@@ -12,7 +12,7 @@ extension UIImageView {
 
   func loadImageFromPath(_ path: String?) -> Cancelable? {
     if let path = path {
-      return MovieDBService.shared.loadImagePath(path) { [weak self] image in
+      return MovieDBServiceImplementation.shared.loadImagePath(path) { [weak self] image in
         DispatchQueue.main.async {
           self?.image = image
         }

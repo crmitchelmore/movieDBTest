@@ -7,15 +7,21 @@
 //
 
 import Foundation
+protocol MoviePersistanceService {
+ 	func setSavedMovies(_ movieViewModels: [MovieViewModel])
+	func addMovie(_ movieViewModel: MovieViewModel)
+	func removeMovie(_ movieViewModel: MovieViewModel)
+	var savedMovies: [MovieViewModel] { get }
+}
 
-class MoviePersistanceService {
-  
-  static let shared = MoviePersistanceService()
+class MoviePersistanceServiceImplementation: MoviePersistanceService {
+
+  static var shared: MoviePersistanceService = MoviePersistanceServiceImplementation()
   private init() {}
-  
+
   private let savedMoviesKey = "SavedMovies"
   private let defaults = UserDefaults.standard
-  
+
   private func saveMovies(_ movies: [Movie]) {
     savedModelCache = movies
     let encoder = JSONEncoder()
@@ -25,11 +31,11 @@ class MoviePersistanceService {
       }
       defaults.set(moviesData, forKey: savedMoviesKey)
     } catch {
-      
+
     }
     defaults.synchronize()
   }
-  
+
   private var savedModelCache: [Movie]?
   private var savedModels: [Movie] {
     if let movieData = defaults.array(forKey: savedMoviesKey) as? [Data] {
@@ -46,25 +52,25 @@ class MoviePersistanceService {
     }
     return []
   }
-  
+
   func setSavedMovies(_ movieViewModels: [MovieViewModel]){
     saveMovies(movieViewModels.map { $0.movie })
   }
-  
+
   func addMovie(_ movieViewModel: MovieViewModel) {
     var movies = self.savedModels
     guard !movies.contains(movieViewModel.movie) else { return }
     movies.append(movieViewModel.movie)
     saveMovies(movies)
   }
-  
+
   func removeMovie(_ movieViewModel: MovieViewModel) {
     var movies = self.savedModels
     guard movies.contains(movieViewModel.movie) else { return }
     movies = movies.filter { $0 != movieViewModel.movie }
     saveMovies(movies)
   }
-  
+
   var savedMovies: [MovieViewModel] {
     return (savedModelCache ?? savedModels).map { MovieViewModel(movie: $0) }
   }
