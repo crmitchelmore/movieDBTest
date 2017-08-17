@@ -9,7 +9,7 @@
 import XCTest
 @testable import MovieDB
 
-class MovieDBTests: XCTestCase {
+class FilterTests: XCTestCase {
  
   func test_includesMovie_greaterThan_10_withMoviePopularity100_isTrue() {
     let sut = NowPlayingFilterOptions.popularity(op: .greaterThan, value: 10)

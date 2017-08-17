@@ -47,6 +47,7 @@ class MovieDBServiceImplementation: MovieDBService {
   private let apiVersion = "3"
   private let imageHost = "http://image.tmdb.org/t/p/w185"
   private let nowPlayingPath = "/movie/now_playing"
+  private let region = "GB"
   private func collectionPath(id: String) -> String {
     return "/collection/\(id)"
   }
@@ -62,7 +63,7 @@ class MovieDBServiceImplementation: MovieDBService {
   private func requestForPath(_ path: String) -> URLRequest {
     var components = URLComponents(string: host)!
     components.path = "/\(apiVersion)\(path)"
-    components.queryItems = [URLQueryItem(name: "api_key", value: apiKey)]
+    components.queryItems = [URLQueryItem(name: "api_key", value: apiKey), URLQueryItem(name: "region", value: region)]
     return URLRequest(url: components.url!)
   }
 

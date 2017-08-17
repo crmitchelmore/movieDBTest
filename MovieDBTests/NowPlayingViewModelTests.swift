@@ -9,7 +9,7 @@
 import XCTest
 @testable import MovieDB
 
-class MovieDBTests: XCTestCase {
+class NowPlayingViewModelTests: XCTestCase {
   
   var sut: NowPlayingViewModel!
   override func setUp() {
@@ -20,7 +20,7 @@ class MovieDBTests: XCTestCase {
       MovieSummary(id: 3, posterPath: nil, title: nil, popularity: 20)
     ]
     let nowPlaying = NowPlaying(results: movieSummaries)
-    sut = NowPlayingViewModel(nowPlaying: n)
+    sut = NowPlayingViewModel(nowPlaying: nowPlaying)
   }
   
   func test_moviesToDisplay_returnsAllMovies() {
@@ -44,9 +44,9 @@ class MovieDBTests: XCTestCase {
       MovieSummary(id: 1, posterPath: nil, title: nil, popularity: 10),
       MovieSummary(id: 3, posterPath: nil, title: nil, popularity: 20),
       MovieSummary(id: 2, posterPath: nil, title: nil, popularity: 30)
-    ]
+      ]
     sut.sortMoviesBy(.popularityAscending)
-    XCTAssertEqual(sut.moviesToDisplay, expectation)
+    XCTAssertEqual(sut.moviesToDisplay.map { $0.movieSummary }, expectation)
   }
   
   func test_moviesToDisplay_respectsRemovingSortBy() {
@@ -57,7 +57,7 @@ class MovieDBTests: XCTestCase {
     ]
     sut.sortMoviesBy(.popularityAscending)
     sut.sortMoviesBy(nil)
-    XCTAssertEqual(sut.moviesToDisplay, expectation)
+    XCTAssertEqual(sut.moviesToDisplay.map { $0.movieSummary }, expectation)
   }
   
   func test_moviesToDisplay_respectsCombinedFilterAndSortBy() {
@@ -67,6 +67,6 @@ class MovieDBTests: XCTestCase {
     ]
     sut.sortMoviesBy(.popularityAscending)
     sut.filterMoviesBy(NowPlayingFilterOptions.popularity(op: .greaterThan, value: 15))
-    XCTAssertEqual(sut.moviesToDisplay, expectation)
+    XCTAssertEqual(sut.moviesToDisplay.map { $0.movieSummary }, expectation)
   }
 }

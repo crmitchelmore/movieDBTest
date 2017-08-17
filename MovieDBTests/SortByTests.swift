@@ -10,7 +10,7 @@
 import XCTest
 @testable import MovieDB
 
-class MovieDBTests: XCTestCase {
+class SortByTests: XCTestCase {
   
   
   func test_sortMovies_ascending_sortsMovies() {
@@ -25,7 +25,7 @@ class MovieDBTests: XCTestCase {
       MovieSummary(id: nil, posterPath: nil, title: nil, popularity: 2),
       MovieSummary(id: nil, posterPath: nil, title: nil, popularity: 3)
     ]
-    XCTAssertEqual((sut.sortMovies(movieSummaries), expected)
+    XCTAssertEqual(sut.sortMovies(movieSummaries), expected)
   }
   
   func test_sortMovies_descending_sortsMovies() {
@@ -40,7 +40,7 @@ class MovieDBTests: XCTestCase {
       MovieSummary(id: nil, posterPath: nil, title: nil, popularity: 2),
       MovieSummary(id: nil, posterPath: nil, title: nil, popularity: 1)
     ]
-    XCTAssertEqual((sut.sortMovies(movieSummaries), expected)
+    XCTAssertEqual(sut.sortMovies(movieSummaries), expected)
   }
 }
 

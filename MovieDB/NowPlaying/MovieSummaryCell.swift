@@ -18,6 +18,7 @@ class MovieSummaryCell: UICollectionViewCell {
     contentView.translatesAutoresizingMaskIntoConstraints = false
     self.title?.text = title
     imageLoadRequest = imageView?.loadImageFromPath(imageUrl)
+    
     if size.width > 0 {
       imageWidth.constant = size.width
     } else if size.height > 0 {

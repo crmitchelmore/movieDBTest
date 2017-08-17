@@ -20,3 +20,9 @@ struct MovieSummary: Codable {
   let title: String?
   let popularity: Double?
 }
+
+extension MovieSummary: Equatable {
+  static func ==(lhs: MovieSummary, rhs: MovieSummary) -> Bool {
+    return lhs.id == rhs.id
+  }
+}

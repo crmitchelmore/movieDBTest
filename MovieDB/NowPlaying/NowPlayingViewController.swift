@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NowPlayingViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class NowPlayingViewController: UICollectionViewController {
   
   let refreshControl = UIRefreshControl()
   
@@ -44,7 +44,9 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
   }
   
   func loadMovies() {
+    navigationController?.showLoadingIndicator()
     MovieDBServiceImplementation.shared.getMovies { result in
+      self.navigationController?.showLoadingIndicator(false)
       switch result {
       case .success(let nowPlaying):
         self.nowPlayingViewModel = NowPlayingViewModel(nowPlaying: nowPlaying)
@@ -65,7 +67,9 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
   }
   
   @objc func refreshMovies() {
+    navigationController?.showLoadingIndicator()
     nowPlayingViewModel?.refreshMovies { [weak self] result in
+      self?.navigationController?.showLoadingIndicator(false)
       switch result {
       case .success(let nowPlayingViewModel):
         self?.nowPlayingViewModel = nowPlayingViewModel
@@ -98,7 +102,9 @@ class NowPlayingViewController: UICollectionViewController, UICollectionViewDele
   }
   
   func showMovieSummary(_ movieSummary: MovieSummaryViewModel, pushVC: Bool = false) {
+    navigationController?.showLoadingIndicator()
     nowPlayingViewModel?.movie(for: movieSummary) { [weak self] result in
+      self?.navigationController?.showLoadingIndicator(false)
       switch result {
       case .success(let movie):
         self?.performSegue(withIdentifier: pushVC && UI_USER_INTERFACE_IDIOM() != .pad ? "pushMovie" : "showMovie", sender: movie)
